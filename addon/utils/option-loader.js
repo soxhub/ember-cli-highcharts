@@ -1,3 +1,5 @@
+import Highcharts from 'highcharts';
+
 var localConfig = null;
 
 export function setDefaultHighChartOptions(container) {

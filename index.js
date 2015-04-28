@@ -67,6 +67,12 @@ module.exports = {
 				}
 			}
 		}
+		
+		//include shim
+		this.app.import('vendor/ember-cli-highcharts/shim.js', {
+			type: 'vendor',
+			exports: { 'highcharts': ['default'] }
+		});
 	}
 };
 
