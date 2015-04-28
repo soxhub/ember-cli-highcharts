@@ -1,6 +1,6 @@
-import Highcharts from 'ember-highcharts/addon/components/high-charts';
+import HighchartsComponent from 'ember-highcharts/addon/components/high-charts';
 
-export default Highcharts.extend({
+export default HighchartsComponent.extend({
   // chartMode: '', // empty, 'StockChart', or 'Map'
   // chartOptions: {},
   // chartData: [],
