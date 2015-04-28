@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-highcharts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The default blueprint for ember-cli addons.",
   "directories": {
     "doc": "doc",
@@ -45,5 +45,15 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
-  }
+  },
+  "_npmUser": {
+    "name": "kjhangiani",
+    "email": "kevinjh@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "kjhangiani",
+      "email": "kevinjh@gmail.com"
+    }
+  ]
 }
