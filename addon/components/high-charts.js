@@ -1,3 +1,10 @@
+/**
+	All credit to ahmadsoe for this excellent emblem-highcharts addon
+	This is a direct fork of his work, just expanded and cleaned up for more universal use in ember-cli apps
+	
+	https://github.com/ahmadsoe/ember-highcharts
+**/
+
 import Ember from 'ember';
 import { setDefaultHighChartOptions } from '../utils/option-loader';
 
