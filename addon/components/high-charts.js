@@ -1,92 +1,91 @@
 /**
-	All credit to ahmadsoe for this excellent emblem-highcharts addon
-	This is a direct fork of his work, just expanded and cleaned up for more universal use in ember-cli apps
-	
-	https://github.com/ahmadsoe/ember-highcharts
+  All credit to ahmadsoe for this excellent emblem-highcharts addon
+  This is a direct fork of his work, just expanded and cleaned up for more universal use in ember-cli apps
+  
+  https://github.com/ahmadsoe/ember-highcharts
 **/
 
 import Ember from 'ember';
 import { setDefaultHighChartOptions } from '../utils/option-loader';
 
 const {
-	computed,
-	get,
-	set,
-	merge,
-	on,
-	observer,
-	run
+  computed,
+  get,
+  set,
+  merge,
+  on,
+  observer,
+  run
 } = Ember;
 
 export default Ember.Component.extend({
-	classNames: ['highcharts-wrapper'],
-	content: undefined,
-	mode:    undefined,
-	chartOptions: undefined,
-	chart: null,
-	theme: undefined,
-	callback: undefined,
+  classNames: ['highcharts-wrapper'],
+  content: undefined,
+  mode:    undefined,
+  chartOptions: undefined,
+  chart: null,
+  theme: undefined,
+  callback: undefined,
 
-	buildOptions: computed('chartOptions', 'content.@each.isLoaded', function() {
-		let chartOptions = Ember.$.extend(true, {}, get(this, 'theme'), get(this, 'chartOptions'));
-		let chartContent = get(this, 'content.length') ? get(this, 'content') : [{
-			id    : 'noData',
-			data  : 0,
-			color : '#aaaaaa'
-		}];
+  buildOptions: computed('chartOptions', 'content.@each.isLoaded', function() {
+    let chartOptions = Ember.$.extend(true, {}, get(this, 'theme'), get(this, 'chartOptions'));
+    let chartContent = get(this, 'content.length') ? get(this, 'content') : [{
+      id    : 'noData',
+      data  : 0,
+      color : '#aaaaaa'
+    }];
 
-		let defaults = { series: chartContent };
+    let defaults = { series: chartContent };
 
-		return merge(defaults, chartOptions);
-	}),
+    return merge(defaults, chartOptions);
+  }),
 
-	contentDidChange: observer('content.@each.isLoaded', function() {
-		if (!(get(this, 'content') && get(this, 'chart'))) {
-			return;
-		}
+  contentDidChange: observer('content.@each.isLoaded', function() {
+    if (!(get(this, 'content') && get(this, 'chart'))) {
+      return;
+    }
 
-		let chart  = get(this, 'chart');
-		let noData = chart.get('noData');
+    let chart  = get(this, 'chart');
+    let noData = chart.get('noData');
 
-		if (noData != null) {
-			noData.remove();
-		}
+    if (noData != null) {
+      noData.remove();
+    }
 
-		return get(this, 'content').forEach((series, idx) => {
-			if (chart.series[idx]) {
-				return chart.series[idx].setData(series.data);
-			} else {
-				return chart.addSeries(series);
-			}
-		});
-	}),
+    return get(this, 'content').forEach((series, idx) => {
+      if (chart.series[idx]) {
+        return chart.series[idx].setData(series.data);
+      } else {
+        return chart.addSeries(series);
+      }
+    });
+  }),
 
-	drawAfterRender() {
-		run.scheduleOnce('afterRender', this, 'draw');
-	},
+  drawAfterRender() {
+    run.scheduleOnce('afterRender', this, 'draw');
+  },
 
-	draw() {
-		let completeChartOptions = [ get(this, 'buildOptions'), get(this, 'callback') ];
-		let mode  = get(this, 'mode');
+  draw() {
+    let completeChartOptions = [ get(this, 'buildOptions'), get(this, 'callback') ];
+    let mode  = get(this, 'mode');
 
-		if (typeof mode === 'string' && !!mode) {
-		  completeChartOptions.unshift(mode);
-		}
+    if (typeof mode === 'string' && !!mode) {
+      completeChartOptions.unshift(mode);
+    }
 
-		let $element = this.$();
-		window.console.log(completeChartOptions);
-		let chart    = $element.highcharts.apply($element, completeChartOptions).highcharts();
+    let $element = this.$();
+    let chart    = $element.highcharts.apply($element, completeChartOptions).highcharts();
 
-		set(this, 'chart', chart);
-	},
+    set(this, 'chart', chart);
+  },
 
-	_renderChart: on('didInsertElement', function() {
-		this.drawAfterRender();
-		setDefaultHighChartOptions(this.container);
-	}),
+  _renderChart: on('didInsertElement', function() {
+    this.drawAfterRender();
+    setDefaultHighChartOptions(this.container);
+  }),
 
-	_destroyChart: on('willDestroyElement', function() {
-		this._super();
-		get(this, 'chart').destroy();
-	})
+  _destroyChart: on('willDestroyElement', function() {
+    this._super();
+    get(this, 'chart').destroy();
+  })
 });
