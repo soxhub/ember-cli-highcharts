@@ -1,8 +1,8 @@
-export function initialize(container) {
-	container.optionsForType('highcharts-config', { instantiate: false });
+export function initialize(application) {
+  application.registerOptionsForType('highcharts-config', { instantiate: false });
 }
 
 export default {
-	name: 'highcharts',
-	initialize: initialize
+  name: 'highcharts',
+  initialize: initialize
 };
