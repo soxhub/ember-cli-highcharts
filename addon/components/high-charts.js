@@ -81,7 +81,7 @@ export default Ember.Component.extend({
 
   _renderChart: on('didInsertElement', function() {
     this.drawAfterRender();
-    setDefaultHighChartOptions(this.container);
+    setDefaultHighChartOptions(Ember.getOwner(this));
   }),
 
   _destroyChart: on('willDestroyElement', function() {
